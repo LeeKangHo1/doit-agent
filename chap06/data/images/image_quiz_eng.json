@@ -1,0 +1,42 @@
+[
+    {
+        "no": 1,
+        "eng": "Which of the following descriptions of the image is incorrect?\n\n- (1) The event hall is filled with many people.\n- (2) There are multiple lights installed on the ceiling.\n- (3) Everyone is using a laptop.\n- (4) There is a large screen in the background.",
+        "img": "busan_dive.jpg"
+    },
+    {
+        "no": 2,
+        "eng": "Which of the following descriptions of the image is incorrect?\n- (1) A yellow sculpture is located on the left side of the image.\n- (2) There is a building with the words 'Local Stitch' on it.\n- (3) Most of the building's exterior walls are gray.\n- (4) The image includes an indoor scene.",
+        "img": "local_stitch.jpg"
+    },
+    {
+        "no": 3,
+        "eng": "Which of the following descriptions of the image is incorrect?\n- (1) Part of the café is made up of a bar table.\n- (2) A yellow wall adds a point to the café.\n- (3) There are many people sitting at the tables.\n- (4) There is a staff member preparing coffee.",
+        "img": "local_stitch_terrarosa.jpg"
+    },
+    {
+        "no": 4,
+        "eng": "Which of the following descriptions of the image is incorrect?\n- (1) The exterior wall of the building is made of red bricks.\n- (2) There is an orange cone in front of the building.\n- (3) The lower floor window shows the words \"PERSONAL COFFEE.\"\n- (4) The building has a single-story structure.",
+        "img": "mangwon.jpg"
+    },
+    {
+        "no": 5,
+        "eng": "Which of the following descriptions of the image is incorrect?**\n\n- (1) Various types of bread are displayed.\n- (2) The person behind the counter is wearing a hat.\n- (3) The prices of the bread are clearly marked.\n- (4) There is a cake placed on top of the display.\n\n**",
+        "img": "mangwon_bakery.jpg"
+    },
+    {
+        "no": 6,
+        "eng": "Which of the following descriptions of the image is incorrect?\n- (1) Workers are installing a metal structure.\n- (2) There's a sign that says \"뉴트리코어.\"\n- (3) A tree is planted in front of the building.\n- (4) People are lined up waiting at the café.",
+        "img": "sangam_interior.jpg"
+    },
+    {
+        "no": 7,
+        "eng": "Which of the following descriptions of the image is incorrect?\n- (1) People are sitting at tables in a café.\n- (2) The floor is made of wood.\n- (3) Sunlight is coming through the windows.\n- (4) There is no one in the room.",
+        "img": "seolleung_terrarosa.jpg"
+    },
+    {
+        "no": 8,
+        "eng": "Which of the following descriptions of the image is incorrect?\n- (1) People are loading luggage onto a large bus.\n- (2) The words 'COFFEE & BAKERY' are visible on the left side of the image.\n- (3) People are waiting in front of a large building.\n- (4) Everyone is lined up to board the bus.",
+        "img": "stanford_coffee.jpg"
+    }
+]

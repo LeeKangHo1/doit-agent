@@ -1,8 +1,7 @@
-# utils/logger.py
-
 import logging
 import sys
 from pathlib import Path
+from logging.handlers import TimedRotatingFileHandler
 
 def get_logger(name: str) -> logging.Logger:
     # 로그 폴더 생성
@@ -21,17 +20,23 @@ def get_logger(name: str) -> logging.Logger:
     logger.setLevel(logging.INFO)
 
     if not logger.handlers:
-        # 파일 핸들러 (로그 파일 기록용)
-        file_handler = logging.FileHandler(log_file, encoding="utf-8")
+        # ⏰ 시간 기준으로 로그 파일 회전 설정 (매일 자정, 7일 보관)
+        file_handler = TimedRotatingFileHandler(
+            log_file,
+            when="midnight",
+            interval=1,
+            backupCount=7,
+            encoding="utf-8"
+        )
         file_handler.setFormatter(CustomFormatter('%(asctime)s - %(levelname)s - %(message)s'))
         logger.addHandler(file_handler)
 
-        # 콘솔 출력도 원한다면 아래 추가
+        # 콘솔 출력 핸들러
         stream_handler = logging.StreamHandler(sys.stdout)
         stream_handler.setFormatter(CustomFormatter('%(asctime)s - %(levelname)s - %(message)s'))
         logger.addHandler(stream_handler)
 
-    # 모든 예외를 로깅하도록 hook 등록
+    # 예외 자동 로깅
     def handle_exception(exc_type, exc_value, exc_traceback):
         if issubclass(exc_type, KeyboardInterrupt):
             sys.__excepthook__(exc_type, exc_value, exc_traceback)
