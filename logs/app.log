@@ -1,0 +1,51 @@
+
+=================
+2025-07-01 13:15:37,362 - INFO - 정상 로그 기록
+
+=================
+2025-07-01 13:15:37,362 - ERROR - Unhandled exception
+Traceback (most recent call last):
+  File "c:\workspace\doit-agent\chap05\sec03\whisper_stt3.py", line 19, in <module>
+    raise ValueError("의도적으로 발생시킨 예외입니다.")  # 이 에러도 logs/app.log에 기록됨
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: 의도적으로 발생시킨 예외입니다.
+
+=================
+2025-07-01 13:16:20,234 - ERROR - Unhandled exception
+Traceback (most recent call last):
+  File "c:\workspace\doit-agent\chap05\sec03\whisper_stt3.py", line 198, in <module>
+    df_rttm = stt_to_rttm(
+              ^^^^^^^^^^^^
+  File "c:\workspace\doit-agent\chap05\sec03\whisper_stt3.py", line 145, in stt_to_rttm
+    result, df_stt = whisper_stt(
+                     ^^^^^^^^^^^^
+  File "c:\workspace\doit-agent\chap05\sec03\whisper_stt3.py", line 55, in whisper_stt
+    result = pipe(audio_file_path)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\workspace\doit-agent\venv\Lib\site-packages\transformers\pipelines\automatic_speech_recognition.py", line 271, in __call__
+    return super().__call__(inputs, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\workspace\doit-agent\venv\Lib\site-packages\transformers\pipelines\base.py", line 1456, in __call__
+    return next(
+           ^^^^^
+  File "C:\workspace\doit-agent\venv\Lib\site-packages\transformers\pipelines\pt_utils.py", line 124, in __next__
+    item = next(self.iterator)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\workspace\doit-agent\venv\Lib\site-packages\transformers\pipelines\pt_utils.py", line 269, in __next__
+    processed = self.infer(next(self.iterator), **self.params)
+                           ^^^^^^^^^^^^^^^^^^^
+  File "C:\workspace\doit-agent\venv\Lib\site-packages\torch\utils\data\dataloader.py", line 733, in __next__
+    data = self._next_data()
+           ^^^^^^^^^^^^^^^^^
+  File "C:\workspace\doit-agent\venv\Lib\site-packages\torch\utils\data\dataloader.py", line 789, in _next_data
+    data = self._dataset_fetcher.fetch(index)  # may raise StopIteration
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\workspace\doit-agent\venv\Lib\site-packages\torch\utils\data\_utils\fetch.py", line 33, in fetch
+    data.append(next(self.dataset_iter))
+                ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\workspace\doit-agent\venv\Lib\site-packages\transformers\pipelines\pt_utils.py", line 186, in __next__
+    processed = next(self.subiterator)
+                ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\workspace\doit-agent\venv\Lib\site-packages\transformers\pipelines\automatic_speech_recognition.py", line 406, in preprocess
+    raise TypeError(f"We expect a numpy ndarray as input, got `{type(inputs)}`")
+TypeError: We expect a numpy ndarray as input, got `<class 'pathlib.WindowsPath'>`
