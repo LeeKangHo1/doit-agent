@@ -7,3 +7,7 @@ venv/
 
 # 교재 깃허브 소스 raw 파일
 gpt_agent_2025_easyspub-main/
+
+# 파이썬 캐시 안 올라가게
+__pycache__/
+**/__pycache__/
