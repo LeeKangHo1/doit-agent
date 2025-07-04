@@ -11,3 +11,7 @@ gpt_agent_2025_easyspub-main/
 # 파이썬 캐시 안 올라가게
 __pycache__/
 **/__pycache__/
+
+# rag 만들기 위한 고용량의 문서 제외
+chap09/data/
+chap09/chroma_store/
