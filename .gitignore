@@ -15,3 +15,5 @@ __pycache__/
 # rag 만들기 위한 고용량의 문서 제외
 chap09/data/
 chap09/chroma_store/
+chap13/data/
+chap13/chroma_store/
