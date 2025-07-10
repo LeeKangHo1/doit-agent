@@ -12,8 +12,7 @@ gpt_agent_2025_easyspub-main/
 __pycache__/
 **/__pycache__/
 
-# rag 만들기 위한 고용량의 문서 제외
+# 고용량의 문서와 벡터 DB 제외
 chap09/data/
-chap09/chroma_store/
 chap13/data/
-chap13/chroma_store/
+**/chroma_store/
