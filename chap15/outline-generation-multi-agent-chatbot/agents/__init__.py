@@ -22,6 +22,8 @@ from .content_strategist import content_strategist
 from .supervisor import supervisor
 from .vector_search_agent import vector_search_agent
 from .web_search_agent import web_search_agent
+from .business_analysist import business_analysist
+from .outline_reviewer import outline_reviewer
 
 agent_nodes = {
     "communicator": communicator,
@@ -29,4 +31,6 @@ agent_nodes = {
     "supervisor": supervisor,
     "vector_search_agent": vector_search_agent,
     "web_search_agent": web_search_agent,
+    "business_analysist": business_analysist,
+    "outline_reviewer": outline_reviewer,
 }

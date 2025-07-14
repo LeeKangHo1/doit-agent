@@ -10,7 +10,10 @@ from .task import Task
 class State(TypedDict):
     messages: List[AnyMessage | str]
     task_history: List[Task]
-    references: dict
+    references: dict # vector search agent에서 검색한 정보를 저장하는 변수
+    user_request: str # 사용자의 요구 사항을 저장하는 변수
+    ai_recommendation: str # AI의 추천을 저장하는 변수
+    supervisor_call_count: int # supervisor 호출 횟수를 저장하는 변수
 
 # 상태 초기화 함수
 def state_init():
@@ -27,5 +30,7 @@ def state_init():
             )
         ],
         task_history = [],
+        references={"queries": [], "docs": []},
+        user_request="",
     )
     return state

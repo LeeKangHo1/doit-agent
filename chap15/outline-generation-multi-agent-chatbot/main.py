@@ -6,7 +6,7 @@ from langchain_core.messages import HumanMessage
 from models import State, state_init
 from agents import agent_nodes
 from agents.supervisor import supervisor_router
-from file_utils import save_state, clear_outline
+from file_utils import save_state, clear_outline_and_state
 
 # 상태 그래프 정의(랭그래프가 models/state의 State 클래스가 자신이 관리할 상태임을 인식)
 graph_builder = StateGraph(State)
@@ -18,7 +18,8 @@ for name, node_func in agent_nodes.items():
     graph_builder.add_node(name, node_func)
 
 # Edges
-graph_builder.add_edge(START, "supervisor")
+graph_builder.add_edge(START, "business_analysist")
+graph_builder.add_edge("business_analysist", "supervisor")
 graph_builder.add_conditional_edges(
     "supervisor",
     supervisor_router,
@@ -29,9 +30,10 @@ graph_builder.add_conditional_edges(
         "web_search_agent": "web_search_agent",
     }
 )
-graph_builder.add_edge("content_strategist", "communicator")
+graph_builder.add_edge("content_strategist", "outline_reviewer")
+graph_builder.add_edge("outline_reviewer", "business_analysist")
 graph_builder.add_edge("web_search_agent", "vector_search_agent")
-graph_builder.add_edge("vector_search_agent", "communicator")
+graph_builder.add_edge("vector_search_agent", "business_analysist")
 graph_builder.add_edge("communicator", END)
 
 graph = graph_builder.compile()
@@ -42,7 +44,7 @@ current_path = os.path.dirname(os.path.abspath(__file__))
 output_path = os.path.join(current_path, "data", "graph.png")
 
 # 프로그램 시작 시 이전 세션에서 생성한 outline.md 파일이 있으면 삭제
-clear_outline(current_path)
+clear_outline_and_state(current_path)
 
 # 폴더가 없으면 생성
 if not os.path.exists(os.path.dirname(output_path)):

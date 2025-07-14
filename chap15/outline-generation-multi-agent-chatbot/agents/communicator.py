@@ -57,5 +57,6 @@ def communicator(state: State):
     return {
         "messages": messages,
         "task_history": task_history,
+        "supervisor_call_count": 0,
     }
 

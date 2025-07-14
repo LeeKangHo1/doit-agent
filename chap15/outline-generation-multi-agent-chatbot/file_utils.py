@@ -21,6 +21,7 @@ def save_state(root_path, state):
         # 전체 내용 말고 metadata(title, source)만 저장
         "docs": [doc.metadata for doc in references["docs"]]
     }
+    state_dict["user_request"] = state.get("user_request", "")
 
     with open(f"{root_path}/data/state.json", 'w', encoding='utf-8') as f:
         # indent -> 들여쓰기할 칸 수. 4면 스페이스 4번, tab 1번 정도로 들여쓰기함
@@ -45,7 +46,7 @@ def save_outline(root_path, outline):
 
     return outline
 
-def clear_outline(root_path):
+def clear_outline_and_state(root_path):
     """기존 목차 파일과 상태 파일(state.json)을 삭제합니다."""
     data_dir = os.path.join(root_path, "data")
 

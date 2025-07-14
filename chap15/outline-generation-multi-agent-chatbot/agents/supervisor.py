@@ -23,7 +23,7 @@ def supervisor(state: State):
         AI 팀의 콘텐츠 전략을 결정하고, 전체 책의 목차(outline)를 작성한다.
         - communicator: AI 팀에서 해야 할 일을 스스로 판단할 수 없을 때 사용한다. 
         사용자에게 진행상황을 보고하고, 다음 지시를 물어본다.
-        - web_search_agent: 웹 검색을 통해 목차(outline) 작성에 필요한 정보를 확보한다.
+        - web_search_agent: vector_search_agent를 시도하고, 검색 결과(references)에 필요한 정보가 부족한 경우 사용한다. 웹 검색을 통해 해당 정보를 Vector DB에 보강한다.
         - vector_search_agent: 벡터 DB 검색을 통해 목차(outline) 작성에 필요한 정보를 확보한다.
 
         아래 내용을 고려하여, 현재 해야할 일이 무엇인지, 사용할 수 있는 agent를 단답으로 말하라.
@@ -45,9 +45,21 @@ def supervisor(state: State):
         "outline": get_outline(root_path)
     }
 
-    task = supervisor_chain.invoke(inputs)
-    task_history = state.get("task_history", [])
-    task_history.append(task)
+    supervisor_call_count = state.get("supervisor_call_count", 0)
+
+    if supervisor_call_count > 5:
+        print("Supervisor 호출 횟수 초과: Communicator 호출")
+        task = Task(
+            agent="communicator",
+            done=False,
+            description="supervisor 호출 횟수를 초과했으므로, 현재까지의 진행 상황을 사용자에게 보고한다.",
+            done_at="",
+        )
+    else:
+        task = supervisor_chain.invoke(inputs)
+
+    task_history = state.get("task_history", []) # 작업 이력 가져오기
+    task_history.append(task) # 작업 이력에 추가
 
     supervisor_message = AIMessage(f"[Supervisor] {task}")
     messages.append(supervisor_message)
@@ -56,6 +68,7 @@ def supervisor(state: State):
     return {
         "messages": messages,
         "task_history": task_history,
+        "supervisor_call_count": supervisor_call_count + 1
     }
 
 def supervisor_router(state: State):

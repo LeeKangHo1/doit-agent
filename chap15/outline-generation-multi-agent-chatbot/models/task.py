@@ -22,7 +22,7 @@ class Task(BaseModel):
         AI 팀에서 해야 할 일을 스스로 판단할 수 없을 때 사용한다.
         사용자에게 진행 상황을 보고하고, 다음 지시를 물어본다.
         - web_search_agent
-        웹 검색을 통해 목차(outline) 작성에 필요한 정보를 확보한다.
+        웹 검색으을 통해 목차(outline) 작성에 필요한 정보를 확보한다.
         - vector_search_agent
         벡터 DB 검색을 통해 목차(outline) 작성에 필요한 정보를 확보한다.
         """

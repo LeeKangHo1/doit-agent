@@ -93,24 +93,19 @@ def vector_search_agent(state: State):
     task_history[-1].done = True
     task_history[-1].done_at = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
-    new_task = Task(
-        agent="communicator",
-        done=False,
-        description="AI팀의 진행상황을 사용자에게 보고하고, 사용자의 의견을 파악하기 위한 대화를 나눈다.",
-        done_at="",
-    )
-    task_history.append(new_task)
-
     # 벡터 검색 에이전트의 작업 후기를 생성해 대화 기록에 추가
     msg_str = f"[VECTOR SEARCH AGENT] 다음 질문에 대한 검색 완료: {queries}"
     message = AIMessage(msg_str)
     print(msg_str)
 
     messages.append(message)
+    # business_analysist로 전달되는 ai_recommendation 정의
+    ai_recommendation = "현재 참고자료(references)가 목차(outoine)를 개선하는 데 충분한지 확인하라. 충분하다면 content_strategist로 목차 작성을 하라. 그렇지 않다면 supervisor에게 web_search_agent를 호출하라고 하라"
 
     # 작업 결과를 상태에 반영
     return {
         "messages": messages,
         "task_history": task_history,
         "references": references,
+        "ai_recommendation": ai_recommendation,
     }
