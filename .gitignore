@@ -16,4 +16,4 @@ __pycache__/
 chap09/data/
 chap13/data/
 **/chroma_store/
-chap15/outline-generation-multi-agent-chatbot/data
+chap15/outline-generation-multi-agent-chatbot/data/
