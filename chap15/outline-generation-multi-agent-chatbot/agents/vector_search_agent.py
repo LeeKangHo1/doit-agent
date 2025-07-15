@@ -5,7 +5,7 @@ from langchain_core.messages import AIMessage
 from tools.vector_search import retrieve
 
 from . import llm, agent_log, root_path
-from models import State, Task
+from models import State
 from file_utils import get_outline
 from datetime import datetime
 
@@ -79,6 +79,13 @@ def vector_search_agent(state: State):
             unique_page_contents.add(doc.page_content)
     references["docs"]  = unique_docs
 
+    # 정보 충분성 평가 (간단한 버전)
+    need_web_search = evaluate_information_sufficiency(references)
+
+    # 벡터 검색 task 완료 표시
+    task_history[-1].done = True
+    task_history[-1].done_at = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
     # 쿼리와 청크 문서를 개발자가 확인할 수 있도록 터미널에 출력
     print('Queries:-------------------')
     queries = references["queries"]
@@ -90,17 +97,22 @@ def vector_search_agent(state: State):
         print(doc.page_content[:100])
         print('-----------------------')
 
-    task_history[-1].done = True
-    task_history[-1].done_at = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    # 정보 충분성에 따라 다른 메시지 생성
+    if need_web_search:
+        msg_str = f"[VECTOR SEARCH AGENT] 다음 질문에 대한 검색 완료: {queries}\n===문서 부족=== ({len(references['docs'])}개) - 웹 검색 필요"
+        ai_recommendation = "문서가 부족하므로 web_search_agent를 통해 추가 정보를 수집하라."
+    else:
+        msg_str = f"[VECTOR SEARCH AGENT] 다음 질문에 대한 검색 완료: {queries}\n===충분한 정보 확보됨=== ({len(references['docs'])}개)"
+        ai_recommendation = "현재 참고자료가 충분하므로 content_strategist로 목차 작성을 진행하라."    
 
     # 벡터 검색 에이전트의 작업 후기를 생성해 대화 기록에 추가
-    msg_str = f"[VECTOR SEARCH AGENT] 다음 질문에 대한 검색 완료: {queries}"
+    # msg_str = f"[VECTOR SEARCH AGENT] 다음 질문에 대한 검색 완료: {queries}"
     message = AIMessage(msg_str)
     print(msg_str)
 
     messages.append(message)
-    # business_analysist로 전달되는 ai_recommendation 정의
-    ai_recommendation = "현재 참고자료(references)가 목차(outoine)를 개선하는 데 충분한지 확인하라. 충분하다면 content_strategist로 목차 작성을 하라. 그렇지 않다면 supervisor에게 web_search_agent를 호출하라고 하라"
+    # # business_analysist로 전달되는 ai_recommendation 정의
+    # ai_recommendation = "현재 참고자료(references)가 목차(outoine)를 개선하는 데 충분한지 확인하라. 충분하다면 content_strategist로 목차 작성을 하라. 그렇지 않다면 supervisor에게 web_search_agent를 호출하라고 하라"
 
     # 작업 결과를 상태에 반영
     return {
@@ -109,3 +121,21 @@ def vector_search_agent(state: State):
         "references": references,
         "ai_recommendation": ai_recommendation,
     }
+
+def evaluate_information_sufficiency(references):
+    """정보 충분성을 평가하는 함수 - 간단한 버전"""
+    docs = references["docs"]
+    
+    # 문서가 5개 미만이면 웹 검색 필요
+    need_web_search = len(docs) < 5
+    
+    return need_web_search
+
+def vector_search_router(state: State):
+    """벡터 검색 후 다음 단계를 결정하는 라우터"""
+    need_web_search = state.get("need_web_search", False)
+    
+    if need_web_search:
+        return "web_search_agent"
+    else:
+        return "business_analysist"

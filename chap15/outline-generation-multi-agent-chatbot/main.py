@@ -6,6 +6,7 @@ from langchain_core.messages import HumanMessage
 from models import State, state_init
 from agents import agent_nodes
 from agents.supervisor import supervisor_router
+from agents.vector_search_agent import vector_search_router
 from file_utils import save_state, clear_outline_and_state
 
 # 상태 그래프 정의(랭그래프가 models/state의 State 클래스가 자신이 관리할 상태임을 인식)
@@ -30,10 +31,21 @@ graph_builder.add_conditional_edges(
         "web_search_agent": "web_search_agent",
     }
 )
+# 핵심 개선사항 1: vector_search_agent에서 조건부 분기
+graph_builder.add_conditional_edges(
+    "vector_search_agent",
+    vector_search_router,  # 새로운 라우터 함수
+    {
+        "business_analysist": "business_analysist",  # 충분한 정보가 있을 때
+        "web_search_agent": "web_search_agent",      # 정보가 부족할 때
+    }
+)
+
+# 핵심 개선사항 2: web_search_agent에서 직접 business_analysist로
+graph_builder.add_edge("web_search_agent", "business_analysist")
+
 graph_builder.add_edge("content_strategist", "outline_reviewer")
 graph_builder.add_edge("outline_reviewer", "business_analysist")
-graph_builder.add_edge("web_search_agent", "vector_search_agent")
-graph_builder.add_edge("vector_search_agent", "business_analysist")
 graph_builder.add_edge("communicator", END)
 
 graph = graph_builder.compile()
