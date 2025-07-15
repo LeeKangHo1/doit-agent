@@ -1,3 +1,6 @@
-### Python 3.12.9
+### 학습 목적의 깃 리포지토리
 
- - 가상 환경 설정해서 requirements.txt 설치 후 실행
+### 출처
+- Do it! LLM을 활용한 AI 에이전트 개발 입문
+- 저자: 이성용
+- https://github.com/saintdragon2/gpt_agent_2025_easyspub
