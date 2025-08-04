@@ -1,6 +1,7 @@
 # main.py
 from langgraph.graph import StateGraph, START, END
 import os
+os.environ["LANGCHAIN_TRACING_V2"] = "false"
 from langchain_core.messages import HumanMessage
 
 from models import State, state_init
@@ -8,6 +9,7 @@ from agents import agent_nodes
 from agents.supervisor import supervisor_router
 from agents.vector_search_agent import vector_search_router
 from file_utils import save_state, clear_outline_and_state
+
 
 # 상태 그래프 정의(랭그래프가 models/state의 State 클래스가 자신이 관리할 상태임을 인식)
 graph_builder = StateGraph(State)

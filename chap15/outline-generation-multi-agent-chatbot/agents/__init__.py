@@ -1,10 +1,12 @@
 # agents/__init__.py
 
 import os
+from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
 
 # 프로젝트 루트 경로 반환
 root_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+load_dotenv(dotenv_path=os.path.join(root_path, ".env"))
 
 # 공통 LLM 모델
 llm = ChatOpenAI(model="gpt-4o-mini")
